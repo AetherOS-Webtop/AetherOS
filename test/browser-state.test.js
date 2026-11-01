@@ -1,0 +1,6 @@
+'use strict';
+const test=require('node:test');const assert=require('node:assert/strict');const {validateBrowserState,cleanUrl}=require('../lib/browser-state');
+test('browser state accepts safe HTTP and HTTPS tabs and known groups',()=>{const state=validateBrowserState({groups:[{id:'work',name:'Work',color:'green'}],tabs:[{id:'tab1',url:'example.com',title:'Example',groupId:'work'}],activeId:'tab1'});assert.equal(state.tabs[0].url,'https://example.com/');assert.equal(state.tabs[0].groupId,'work');assert.equal(state.activeId,'tab1');});
+test('browser state rejects unsafe schemes and credentials',()=>{assert.equal(cleanUrl('javascript:alert(1)'),null);assert.equal(cleanUrl('data:text/html,hi'),null);assert.equal(cleanUrl('https://user:pass@example.com'),null);});
+test('browser state caps tabs and groups',()=>{assert.throws(()=>validateBrowserState({tabs:Array.from({length:51},(_,i)=>({id:'t'+i,url:'https://example.com'}))}),/limits/);});
+test('browser state drops invalid group references and invalid ids',()=>{const s=validateBrowserState({groups:[{id:'bad id',name:'Nope'},{id:'ok',name:'OK'}],tabs:[{id:'tab',url:'https://example.com',groupId:'missing'}],activeId:'tab'});assert.equal(s.groups.length,1);assert.equal(s.tabs[0].groupId,null);});

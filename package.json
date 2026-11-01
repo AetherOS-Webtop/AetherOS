@@ -1,0 +1,42 @@
+{
+  "name": "aetheros-webtop-server",
+  "version": "1.0.0-alpha.4",
+  "private": true,
+  "description": "AetherOS Webtop 1.0a \u2014 multi-user Webtop, host memory-pressure protection, Resist Logging Off, isolated app runtime, AetherKit, IDE, installers and supervised daemons",
+  "main": "main.js",
+  "scripts": {
+    "server": "node server.js",
+    "start": "electron .",
+    "dist": "electron-builder",
+    "test": "node --test test/*.test.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "express-session": "^1.18.1",
+    "session-file-store": "^1.5.0",
+    "helmet": "^8.0.0"
+  },
+  "devDependencies": {
+    "electron": "^33.2.1",
+    "electron-builder": "^25.1.8"
+  },
+  "build": {
+    "appId": "com.aetheros.webtop",
+    "productName": "AetherOS Webtop",
+    "files": [
+      "**/*",
+      "!data/**",
+      "!sessions/**",
+      "!node_modules/.cache/**"
+    ],
+    "directories": {
+      "output": "dist"
+    }
+  },
+  "bin": {
+    "aetherctl": "bin/aetherctl.js"
+  }
+}

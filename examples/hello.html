@@ -1,0 +1,4 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Sandbox Demo</title><style>body{font:16px system-ui;padding:28px;color:#172033}button{padding:10px 14px;border:0;border-radius:9px;background:#315fbd;color:white}code{background:#eef2f8;padding:3px 6px;border-radius:5px}</style></head>
+<body><h1>Hello from an isolated AetherOS app</h1><p>This HTML file is hosted in the server VFS and executed in an opaque-origin sandbox.</p><button id="read">Request a file read</button><pre id="result">No request yet.</pre><script>document.getElementById('read').addEventListener('click',async()=>{try{const result=await aetheros.request('files.read',{path:'Documents/example.txt'});document.getElementById('result').textContent=result.content;}catch(e){document.getElementById('result').textContent=e.message;}});</script></body></html>

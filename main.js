@@ -1,0 +1,4 @@
+'use strict';
+const {app,BrowserWindow}=require('electron');const path=require('node:path');const {startServer,stopServer,getSystemConfig}=require('./server');let windowRef;
+async function createWindow(){const {port}=getSystemConfig();windowRef=new BrowserWindow({width:1180,height:800,minWidth:800,minHeight:600,backgroundColor:'#080d18',title:'AetherOS Webtop',webPreferences:{preload:path.join(__dirname,'preload.js'),contextIsolation:true,nodeIntegration:false,sandbox:true}});await windowRef.loadURL('http://127.0.0.1:'+port+'/');windowRef.on('closed',()=>windowRef=null);}
+app.whenReady().then(async()=>{await startServer();await createWindow();app.on('activate',()=>{if(BrowserWindow.getAllWindows().length===0)createWindow().catch(console.error);});}).catch(e=>{console.error(e);app.quit();});app.on('window-all-closed',()=>{if(process.platform!=='darwin')app.quit();});app.on('before-quit',()=>{stopServer().catch(console.error);});

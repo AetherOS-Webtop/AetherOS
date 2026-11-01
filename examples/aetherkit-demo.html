@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>AetherKit Demo</title>
+</head>
+<body>
+  <main class="ak-stack" style="max-width:48rem;margin:3rem auto;padding:1rem">
+    <span class="ak-badge">AetherKit · 1.0a</span>
+    <h1>A familiar AetherOS feel.</h1>
+    <p class="ak-muted">AetherKit is injected by the Webtop runtime. No external stylesheet or network permission is required.</p>
+    <section class="ak-card ak-stack">
+      <h2>Design language</h2>
+      <p>Consistent surfaces, spacing, borders, focus rings and typography.</p>
+      <div class="ak-row">
+        <button>Primary action</button>
+        <button class="ak-button-secondary">Secondary action</button>
+        <span class="ak-badge">Ready</span>
+      </div>
+      <hr class="ak-divider">
+      <label class="ak-input">AetherOS API demo<input id="value" placeholder="Type something"></label>
+      <button id="checkpoint" class="ak-button-quiet">Save app state checkpoint</button>
+      <p id="status" class="ak-muted" aria-live="polite"></p>
+    </section>
+  </main>
+  <script>
+    const status = document.querySelector('#status');
+    document.querySelector('#checkpoint').addEventListener('click', async () => {
+      try { await aetheros.memory.swap({ value: document.querySelector('#value').value }); status.textContent = 'Checkpoint saved to your private AetherOS swap slot.'; }
+      catch (error) { status.textContent = error.message; }
+    });
+    aetheros.lifecycle.onSuspend(async () => {
+      await aetheros.memory.swap({ value: document.querySelector('#value').value });
+    });
+    window.addEventListener('aetheros:resume', async () => {
+      const checkpoint = await aetheros.memory.restore();
+      if (checkpoint.found) document.querySelector('#value').value = checkpoint.data.value || '';
+    });
+  </script>
+</body>
+</html>
