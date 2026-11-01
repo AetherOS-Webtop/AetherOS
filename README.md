@@ -178,3 +178,17 @@ Before creating a new authenticated session, AetherOS checks actual host free me
 The user-wide flag is only writable through the administrator-protected route. The `admin` role is the root-equivalent privilege in this alpha. Multiple clients using the same account share one quota reservation; they do not each receive a fresh 2/4 GiB allocation.
 
 **Important boundary:** this alpha still runs the Standard App HTML/JavaScript document in a sandboxed iframe on the connecting browser. Its VFS, packages, API broker, sessions and quota admission are server-owned, but that is not the same as executing the entire GUI application process on the server. Hard server-side per-user RAM enforcement and server-rendered/streamed GUI execution require a dedicated app-process host with OS resource controls and a remote-display transport; this build does not claim those pieces are complete. The telemetry-based cap signal is cooperative/approximate until that host exists.
+
+### Contributions
+
+This section includes how you contribute to AetherOS.
+
+## Pull Requests
+
+Fork the repository, do your changes, double-check them, and make a Pull Request, We will check it, And if it passes the tests, It will be merged.
+
+## Usage of AI
+
+AI is a helpful tool that I used to write this, But make sure you don't fully depend on it.
+Read the code to make sure it works without introducing frequent bugs.
+Optionally, **Don't be a meat proxy**. While this is optional, It's recommended, make sure to scan the code and make your own changes to it before making a pull request.
